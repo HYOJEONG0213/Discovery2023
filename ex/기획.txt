@@ -1,0 +1,13 @@
+1. 스테이지 5
+2. 구현부터 해야함
+3. 회전 -> 구현부터 한 뒤에 시간이 남으면 하자
+4. 블럭의 모양은 미리 정해두자
+ex) [0, 1, 0], // 10 // SSS // Wizard
+      [1, 2, 1],
+      [0, 1, 0] : 십자가 모양, 2는 중심을 의미
+
+5. https://bladejun.tistory.com/164에서 game_board와 table 혹은 블럭 모양을 토대로 알고리즘 짜
+https://programmers.co.kr/learn/courses/30/lessons/84021?language=python3
+
+
+6. 입력 알고리즘 / 자료 구조 알고리즘 / 탐색 알고리즘 / 유저 인터페이스 알고리즘
