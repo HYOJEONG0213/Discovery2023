@@ -27,7 +27,9 @@ def draw_board(screen, board):
     block_size = 30  # 각 블록의 크기
     for y, row in enumerate(board):
         for x, cell in enumerate(row):
-            if cell == 1:
+            if cell == 0:
+                color = (255, 255, 255)     #흰색: 비어있는 블럭
+            elif cell == 1:
                 color = (0, 0, 0)   #검정색: 이미 차있는 블럭
             elif cell == 2:
                 color = (0, 255, 0)     #초록색(녹색성분)
@@ -59,8 +61,6 @@ def draw_board(screen, board):
                 color = (255, 105, 180)    #핑크색 (빨강 성분)
             elif cell == 15:
                 color = (255, 182, 193)    #핑크색 (빨강 성분)    
-            elif cell == 0:
-                color = (255, 255, 255)     #흰색: 비어있는 블럭
             
             pygame.draw.rect(screen, color, pygame.Rect(x * block_size, y * block_size, block_size, block_size))
             
