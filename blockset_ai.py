@@ -37,8 +37,15 @@ def draw_board(screen, board):
     screen.fill((255, 255, 255))  # 화면을 흰색으로 채우기
 
     block_size = 30  # 각 블록의 크기
+    border_size = 5  # 테두리 크기
+
+
     for y, row in enumerate(board):
         for x, cell in enumerate(row):
+            rect = pygame.Rect(x * block_size, y * block_size, block_size, block_size)
+            pygame.draw.rect(screen, (255, 255, 255), rect)  # 블록 테두리 그리기
+            inner_rect = pygame.Rect(rect.left + border_size, rect.top + border_size, rect.width - 2 * border_size, rect.height - 2 * border_size)
+
             if cell == 0:
                 color = (255, 255, 255)     #흰색: 비어있는 블럭
             elif cell == 1:
@@ -74,7 +81,7 @@ def draw_board(screen, board):
             elif cell == 15:
                 color = (255, 182, 193)    #핑크색 (빨강 성분)    
             
-            pygame.draw.rect(screen, color, pygame.Rect(x * block_size, y * block_size, block_size, block_size))
+            pygame.draw.rect(screen, color, inner_rect)
             
     pygame.display.flip()
 
