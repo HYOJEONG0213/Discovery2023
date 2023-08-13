@@ -28,6 +28,7 @@ block_num = 2
 selected_color_num = None
 original_board = [row[:] for row in board]  # 게임 보드의 초기 상태 저장
 original_block = [row[:] for row in block_list]
+hover_color = 15
 
 screen = pygame.display.set_mode((W * 50, H * 200))
 pygame.display.set_caption("Block Game")
@@ -64,7 +65,7 @@ while running:
                         nx, ny = block_x + dx, block_y + dy
                         if 0 <= nx < W and 0 <= ny < H:
                             #original_board[ny][nx] = board[ny][nx]      
-                            board[ny][nx] = 15   #신규 hover된 위치의 색깔을 바꾸기
+                            board[ny][nx] = hover_color   #신규 hover된 위치의 색깔을 바꾸기
                     color_changed = True
                     hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다.
 
@@ -75,7 +76,7 @@ while running:
                         board[ny][nx] = original_board[ny][nx]      #보드의 상태를 하버되기 전 상태로 되돌리기
                         for i in range(len(board)):
                             for j in range(len(board[0])):
-                                if board[i][j] == 15:
+                                if board[i][j] == hover_color:
                                     board[i][j] = 0
                 color_changed = True
             
@@ -84,7 +85,7 @@ while running:
                         nx, ny = block_x + dx, block_y + dy
                         if 0 <= nx < W and 0 <= ny < H:
                             #original_board[ny][nx] = board[ny][nx]      
-                            board[ny][nx] = 15   #신규 hover된 위치의 색깔을 바꾸기
+                            board[ny][nx] = hover_color   #신규 hover된 위치의 색깔을 바꾸기
                     color_changed = True
                     hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다.
                 else:
