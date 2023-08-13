@@ -4,7 +4,7 @@ from blockset_ai import *
 board = [[1,0,0,0,0,0,1],
         [1,0,0,0,0,0,1],
         [1,1,0,0,1,1,1]]
-block_list = [[(0,0), (0,1), (-1,1)], [(0,0), (0,1), (0,2)], [(0,0), (0,1), (0,2), (1,0)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)]]
+block_list = [[(0,0), (1,0), (0,1)], [(0,0), (0,1), (0,2)], [(0,0), (0,1), (0,2), (1,0)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)]]
 block = []
 #block = [(0,0), (0,1), (-1,1)]
 '''block = [[(0,0), (0,1), (-1,1)], [(0,0),(1,0),(1,1)], [(0,0),(1,0),(0,1)], [(0,0),(0,1),(1,1)], #ㄴ 모양
@@ -64,7 +64,7 @@ while running:
                         nx, ny = block_x + dx, block_y + dy
                         if 0 <= nx < W and 0 <= ny < H:
                             #original_board[ny][nx] = board[ny][nx]      
-                            board[ny][nx] = block_num   #신규 hover된 위치의 색깔을 바꾸기
+                            board[ny][nx] = 15   #신규 hover된 위치의 색깔을 바꾸기
                     color_changed = True
                     hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다.
 
@@ -73,6 +73,10 @@ while running:
                     nx, ny = hovered_block[0] + dx, hovered_block[1] + dy
                     if 0 <= nx < W and 0 <= ny < H:
                         board[ny][nx] = original_board[ny][nx]      #보드의 상태를 하버되기 전 상태로 되돌리기
+                        for i in range(len(board)):
+                            for j in range(len(board[0])):
+                                if board[i][j] == 15:
+                                    board[i][j] = 0
                 color_changed = True
             
                 if check_block_placement(mouse_x, mouse_y, block_x, block_y):   #블록을 현재 위치에 넣을 수 있다면 확인하기
@@ -80,7 +84,7 @@ while running:
                         nx, ny = block_x + dx, block_y + dy
                         if 0 <= nx < W and 0 <= ny < H:
                             #original_board[ny][nx] = board[ny][nx]      
-                            board[ny][nx] = block_num   #신규 hover된 위치의 색깔을 바꾸기
+                            board[ny][nx] = 15   #신규 hover된 위치의 색깔을 바꾸기
                     color_changed = True
                     hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다.
                 else:
@@ -112,6 +116,7 @@ while running:
                     '''for block_info in block_info:
                         if block_info["color_num"] == selected_color_num:
                             block_list'''
+                    block = None
                     
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:  # 오른쪽 마우스 버튼 클릭 이벤트일 때
@@ -130,9 +135,16 @@ while running:
                     block_num -=1
             block_list.append(a)
 
-
-
-                    
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                print(block)
+                for pos in range(len(block)):
+                    pos_list = list(block[pos])
+                    temp = pos_list[0]
+                    pos_list[0] = pos_list[1]
+                    pos_list[1] = temp * -1
+                    block[pos] = tuple(pos_list)
+                print(block)
 
 
     draw_board(screen, board)
