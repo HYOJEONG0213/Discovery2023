@@ -1,10 +1,10 @@
 from blockset_ai import *
 
 
-board = [[1,0,0,0,0,0,1],
-        [1,0,0,0,0,0,1],
-        [1,1,0,0,1,1,1]]
-block_list = [[(0,0), (1,0), (0,1)], [(0,0), (0,1), (0,2)], [(0,0), (0,1), (0,2), (1,0)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)]]
+board = [[0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,1,1,1]]
+block_list = [[(0,0), (0,1), (-1,1)], [(0,0), (0,1), (0,2)], [(0,0), (0,1), (0,2), (1,2)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)]]
 block = []
 #block = [(0,0), (0,1), (-1,1)]
 '''block = [[(0,0), (0,1), (-1,1)], [(0,0),(1,0),(1,1)], [(0,0),(1,0),(0,1)], [(0,0),(0,1),(1,1)], #ㄴ 모양
@@ -146,7 +146,24 @@ while running:
                     pos_list[1] = temp * -1
                     block[pos] = tuple(pos_list)
                 print(block)
-
+                for i in range(len(board)):
+                    for j in range(len(board[0])):
+                        if board[i][j] == hover_color:
+                            board[i][j] = 0
+                color_changed = True
+                if check_block_placement(mouse_x, mouse_y, block_x, block_y):   #블록을 현재 위치에 넣을 수 있다면 확인하기
+                    for dx, dy in block:
+                        nx, ny = block_x + dx, block_y + dy
+                        if 0 <= nx < W and 0 <= ny < H:
+                            #original_board[ny][nx] = board[ny][nx]      
+                            board[ny][nx] = hover_color   #신규 hover된 위치의 색깔을 바꾸기
+                    color_changed = True
+                    hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다   
+        
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_h:
+                boardCover(screen, board, block_list, H, W, block_num)
+                pygame.time.wait(5000)
 
     draw_board(screen, board)
     block_info = draw_block(screen, block_list, H, block_num)
