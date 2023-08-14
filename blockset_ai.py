@@ -9,10 +9,7 @@
 
 from collections import deque
 import pygame
-
-
-
-
+import copy
 
 #answer = []
 
@@ -69,80 +66,99 @@ def select_color(cell):
     elif cell == 14:
         color = (255, 105, 180)    #핑크색 (빨강 성분)
     elif cell == 15:
-        color = (255, 182, 193)    #핑크색 (빨강 성분)    
+        color = (255, 182, 193)    #핑크색 (빨강 성분) <- hover
     else:
         color = (255, 255, 255)
     return color
 
 
-def boardCover(screen, board, block):
+def boardCover(screen, board, blocks, H, W, block_num):
     Q = deque()
     L = 0
-    Q.append((board, L))
+    b = [0] * len(blocks)
+    Q.append((board, L, b))
+    temp_blocks = blocks
+    block = []
+
+    for i in range(len(blocks)):
+        for j in range(0, 4):
+            for pos in range(len(temp_blocks[i])):
+                    pos_list = list(temp_blocks[i][pos])
+                    temp = pos_list[0]
+                    pos_list[0] = pos_list[1]
+                    pos_list[1] = temp * -1
+                    temp_blocks[i][pos] = tuple(pos_list)
+            temp_block = copy.deepcopy(temp_blocks[i])
+            block.append(temp_block)
     
-    count = 0
+    for i in range(len(block)):
+        print(block[i])
+
+    
     
     while Q:    #BFS방법 이용하기
-        cur_board, level = Q.popleft()  #큐에서 가장 왼쪽꺼 빼내고
-        
+        cur_board, level, cur_block = Q.popleft()  #큐에서 가장 왼쪽꺼 빼내고
         x, y = -1, -1
         for i in range(H):
             for j in range(W):
                 if cur_board[i][j] == 0:    #board에서 비어있는 구역이라면
-                    x = j
-                    y = i
-                    break   #비어있는 i, j값을 x, y로 저장하기
+                        x = j
+                        y = i
+                        break   #비어있는 i, j값을 x, y로 저장하기
             if y != -1:     
                 break   
                 
         if x == -1 and y == -1:     #모두 다 차있다면
-            count += 1
-            draw_board(screen, cur_board)
+            answer = True
+            print(cur_block)
             for i in range(H):
                 for j in range(W):
+                    board[i][j] = cur_board[i][j]
                     print(cur_board[i][j], end =' ')
                 print("\n")
             print()
-            return 1
+            draw_board(screen, board)
             #continue
         
-        
-        for cover in block:
-            flag = True
-            for dx, dy in cover:
-                nx, ny = x + dx, y + dy
-                if nx < 0 or nx >= W or ny < 0 or ny >= H:   #범위 밖이라면
-                    flag = False
-                    break
-                elif cur_board[ny][nx] != 0:    #이미 그 자리에 차있다면
-                    flag = False
-                    break 
-            if flag:    #넣을 수 있다고 판단했다면
-                new_board = [row[:] for row in cur_board]   #원본 cur_board를 수정하지 않고 복사하고,
-                #a = []
+        for i in range(len(blocks)):
+            for j in range(4):
+                cover = block[(i*4) + j]
+                flag = True
                 for dx, dy in cover:
                     nx, ny = x + dx, y + dy
-                    new_board[ny][nx] = level+2
-                    #a.append([ny, nx])
-                    #board[ny][nx] = block_num   #채우기
-                    #answer.append([ny, nx])
-                #answer.append(a)
-                #new_board = [''.join(row) for row in new_board]  # 리스트를 문자열로 변환
-                Q.append((new_board, level+1))  #새로운 상태의 보드를 생성하여 큐에 추가하기
-                draw_board(screen, new_board)
-                pygame.time.wait(10)  # 0.5초 대기
+                    if nx < 0 or nx >= W or ny < 0 or ny >= H:   #범위 밖이라면
+                        flag = False
+                        break
+                    elif cur_board[ny][nx] != 0:    #이미 그 자리에 차있다면
+                        flag = False
+                        break 
+                if flag:    #넣을 수 있다고 판단했다면
+                    new_board = [row[:] for row in cur_board]   #원본 cur_board를 수정하지 않고 복사하고,
+                    new_block = copy.deepcopy(cur_block)
+                    #a = []
+                    new_block[i] = 1
+                    for dx, dy in cover:
+                        nx, ny = x + dx, y + dy
+                        new_board[ny][nx] = level+2
+                        #a.append([ny, nx])
+                        #board[ny][nx] = level+2   #채우기
+                        #answer.append([ny, nx])
+                    #answer.append(a)
+                    #new_board = [''.join(row) for row in new_board]  # 리스트를 문자열로 변환
+                    Q.append((new_board, level+1, new_block))  #새로운 상태의 보드를 생성하여 큐에 추가하기
+                    draw_board(screen, new_board)
+                    #pygame.time.wait(1)  # 0.5초 대기
                 
                 #if count != 0:
                 #    break
             #else:
                 #answer.clear()
-        '''
-        a=[]
+        '''a=[]
         for dx, dy in cover:
             nx, ny = x + dx, y+ dy
             a.append([ny, nx])
         answer.append(a)'''
-    return count
+    return board
         
 
 # 블럭들의 모양 그리기
@@ -159,7 +175,7 @@ def draw_block(screen, block_list, H, color_num):
         block_width = len(block[0])  # 블록의 너비
         block_height = len(block)  # 블록의 높이
 
-        for y, x in block:
+        for x, y in block:
             rect = pygame.Rect(start_x + (x * (block_size + spacing)) + (max_block_width - block_width) * (block_size + spacing) / 2,
                            start_y + (y * block_size),
                            block_size, block_size)
