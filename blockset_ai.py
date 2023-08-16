@@ -205,92 +205,112 @@ def boardCover(screen, board, blocks, H, W, block_num2):
         for shape in block:
             should_keep_shape = True  # 이번 블록을 유지할것인가
             for sublist in shape:
-                print("sublist: ", sublist)
+                #print("sublist: ", sublist)
                 if sublist in block_to_remove.values():
                     should_keep_shape = False  #이미 써먹은 블록이면 pass
                     break  
             
-            print("해당 shape는 없는 블럭이네 ", shape, "이미 쓴 블록에 없네:", block_to_remove)
+            #print("해당 shape는 없는 블럭이네 ", shape, "이미 쓴 블록에 없네:", block_to_remove)
             if should_keep_shape==True:
                 remained_block.append(shape)  #안 써먹은 블록이면 넣기
             #print("남은 블럭들: ", remained_block)
             print("\n")
-        print("남은 블럭들: ", remained_block)  
+        #print("남은 블럭들: ", remained_block)  
+
 
         for blocks in remained_block:
-            for cover in blocks:
-            #for i in range(len(blocks)):
-                #for j in range(4):
-                    #cover = block[(i*4) + j]
-                flag = True
-                first_dx, first_dy = cover[0]
-                print("**", first_dx, first_dy)
-                print("지금 어떤 블럭인디 ", cover)
-                for dx, dy in cover:
-                    diff_x, diff_y = dx - first_dy, dy - first_dx
-                    nx, ny = x + diff_x, y + diff_y
-                    print("그 긴 것", x, dx, y, dy, nx, ny)
-                    print(cur_board)
-                    if nx < 0 or nx >= H or ny < 0 or ny >= W:   #범위 밖이라면
-                        flag = False
-                        print("test1")
-                        continue
-                    elif cur_board[nx][ny] != 0:    #이미 그 자리에 차있다면
-                        flag = False
-                        print("test2")
-                        continue
-                    print("좌표: ", cur_board[nx][ny])
-                if flag:    #넣을 수 있다고 판단했다면
-                    new_board = [row[:] for row in cur_board]   #원본 cur_board를 수정하지 않고 복사하고,
-                    #new_block = copy.deepcopy(cur_block)
-                    #a = []
-                    #new_block[i] = 1
+            if len(remained_block) == 1:
+                draw_board(screen, cur_board)
+                pygame.display.flip()
+                board_empty_pos = []
+                board_empty_pos.append((x, y))
+                find_empty_block(cur_board, board_empty_pos, x, y, W, H)
+                print("좌표 확인됌")
+                print(len(board_empty_pos), len(blocks[0]), "\n")
+                print(blocks[0])
+                #pygame.time.wait(15)
+                if len(board_empty_pos) == len(blocks[0]):
+                    x_min = 99
+                    y_min = 99
+                    print("1차 통과")
+                    #pygame.time.wait(300)
+                    for pos in range(len(board_empty_pos)):
+                        pos_list = board_empty_pos[pos]
+                        if pos_list[0] < x_min:
+                            x_min = pos_list[0]
+                        if pos_list[1] < y_min:
+                            y_min = pos_list[1]
+                    for pos in range(len(board_empty_pos)):
+                        pos_list = list(board_empty_pos[pos])
+                        pos_list[0] -= x_min
+                        pos_list[1] -= y_min
+                        board_empty_pos[pos] = tuple(pos_list)
+                    board_empty_pos.sort(key = lambda x:(x[0], x[1]))
+                    print(board_empty_pos)
+                    #pygame.time.wait(10000)
+                    for cover in blocks:
+                        flag = True
+                        for i in range(len(cover)):
+                            if cover[i] != board_empty_pos[i]:
+                                flag = False
+                                print("형님 좌표가 틀렸다는데요? 냅둬 좋은 꿈 꾸나보지")
+                                print(cover[i], board_empty_pos[i], "\n")
+                                #pygame.time.wait(1000)
+                                break
+                        if flag:
+                            print("에에엥 여기까지 왔는데 왜 안되는겨")
+                            print(cover, "  ", board_empty_pos)
+                            new_board = [row[:] for row in cur_board]
+                            first_x, first_y = cover[0]
+                            print(first_x, first_y)
+                            pygame.time.wait(3000)
+                            for dx, dy in cover:
+                                #diff_x, diff_y = dx - first_x, dy - first_y
+                                #nx, ny = x + diff_x, y + diff_y
+                                nx, ny = x+ dx - first_y, y + dy - first_x
+                                new_board[ny][nx] = level + block_num2
+                                nx, ny
+                            Q.append((new_board, level, remained_block, block_num2+1))  #새로운 상태의 보드를 생성하여 큐에 추가하기
+                            draw_board(screen, new_board)
+                            pygame.display.flip()
+
+                            pygame.time.wait(5000)  # 0.5초 대기'''
+                            return
+            else:
+                for cover in blocks:
+                #for i in range(len(blocks)):
+                    #for j in range(4):
+                        #cover = block[(i*4) + j]
+                    flag = True
+                    first_x, first_y = cover[0]
                     for dx, dy in cover:
-                        diff_x, diff_y = dx - first_dy, dy - first_dx
-                        nx, ny = x + diff_x, y + diff_y
-                        new_board[nx][ny] = level + block_num2
-
-                    
-
-                    Q.append((new_board, level, remained_block, block_num2+1))  #새로운 상태의 보드를 생성하여 큐에 추가하기
-                    draw_board(screen, new_board)
-                    pygame.display.flip()
-
-                    pygame.time.wait(200)  # 0.5초 대기
-
-
-
-                    x = -1
-                    y = -1
-                    for i in range(H):      
-                        for j in range(W):
-                            if cur_board[i][j] == 0:    #board에서 비어있는 구역이라면
-                                    x = j
-                                    y = i
-                                    break   #비어있는 i, j값을 x, y로 저장하기
-
-                        if y != -1:     
+                        #diff_x, diff_y = dx - first_x, dy - first_y
+                        #nx, ny = x + diff_x, y + diff_y
+                        nx, ny = x + dx - first_y, y + dy - first_x
+                        if nx < 0 or nx >= W or ny < 0 or ny >= H:   #범위 밖이라면
+                            flag = False
                             break
-                        print("\n")   
+                        elif cur_board[ny][nx] != 0:    #이미 그 자리에 차있다면
+                            flag = False
+                            break 
+                    if flag:    #넣을 수 있다고 판단했다면
+                        new_board = [row[:] for row in cur_board]   #원본 cur_board를 수정하지 않고 복사하고,
+                        #new_block = copy.deepcopy(cur_block)
+                        #a = []
+                        #new_block[i] = 1
+                        first_x, first_y = cover[0]
+                        for dx, dy in cover:
+                            #diff_x, diff_y = dx - first_x, dy - first_y
+                            #nx, ny = x + diff_x, y + diff_y
+                            nx, ny = x + dx - first_y, y + dy - first_x
+                            new_board[ny][nx] = level + block_num2
+                        
 
-                    if x == -1 and y == -1:     #모두 다 차있다면
-                        #sorted_values = [sorted(value) for value in block_to_remove.values()]
-                        #unique_values = set(tuple(value) for value in sorted_values)
-                        #if len(unique_values) != len(block_to_remove):
-                        #   continue
+                        Q.append((new_board, level, remained_block, block_num2+1))  #새로운 상태의 보드를 생성하여 큐에 추가하기
+                        draw_board(screen, new_board)
+                        pygame.display.flip()
 
-                        answer = True
-                        print(cur_block)
-                        for i in range(H):
-                            for j in range(W):
-                                board[i][j] = cur_board[i][j]
-                                print(cur_board[i][j], end =' ')
-                            print("\n")
-                        print()
-                        draw_board(screen, board, H, level + block_num2)
-                        return 1
-                        #continue
-                        pygame.time.wait(3000)  # 0.5초 대기
+                        #pygame.time.wait(20)  # 0.5초 대기
                     
                 
                 #if count != 0:
@@ -305,6 +325,23 @@ def boardCover(screen, board, blocks, H, W, block_num2):
     print("발견 실패!")
     return board
         
+def find_empty_block(cur_board, board_empty_pos, x, y, W, H):
+    board_dx = [-1, 0, 1, 0]
+    board_dy = [0, -1, 0, 1]
+    for i in range(len(board_dx)):
+        nx, ny = x + board_dx[i], y + board_dy[i]
+        if nx < 0 or nx >= W or ny < 0 or ny >= H:
+            continue
+        if cur_board[ny][nx] == 0:
+            flag = True
+            for i in range(len(board_empty_pos)):
+                if nx == board_empty_pos[i][0] and ny == board_empty_pos[i][1]:
+                    flag = False
+            if flag:
+                board_empty_pos.append((nx, ny))
+                print((nx, ny))
+                find_empty_block(cur_board, board_empty_pos, nx, ny, W, H)
+    return 
 
 # 블럭들의 모양 그리기
 def draw_block(screen, block_list, H, color_num):
