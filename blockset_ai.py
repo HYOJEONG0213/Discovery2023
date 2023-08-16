@@ -263,7 +263,6 @@ def boardCover(screen, board, blocks, H, W, block_num2):
                             new_board = [row[:] for row in cur_board]
                             first_x, first_y = cover[0]
                             print(first_x, first_y)
-                            pygame.time.wait(3000)
                             for dx, dy in cover:
                                 #diff_x, diff_y = dx - first_x, dy - first_y
                                 #nx, ny = x + diff_x, y + diff_y
