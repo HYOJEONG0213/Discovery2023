@@ -4,7 +4,7 @@ from blockset_ai import *
 board = [[0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
         [0,0,0,0,1,1,1]]
-block_list = [[(0,0), (0,1), (-1,1)], [(0,0), (0,1), (0,2)], [(0,0), (0,1), (0,2), (1,2)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)]]
+block_list = [[(0,0), (0,1), (1,1)], [(0,0), (0,1), (0,2)], [(0,0), (0,1), (0,2), (1,2)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)]]
 block = []
 #block = [(0,0), (0,1), (-1,1)]
 '''block = [[(0,0), (0,1), (-1,1)], [(0,0),(1,0),(1,1)], [(0,0),(1,0),(0,1)], [(0,0),(0,1),(1,1)], #ㄴ 모양
@@ -118,8 +118,9 @@ while running:
                         if block_info["color_num"] == selected_color_num:
                             block_list'''
                     block = None
+                    print("block_num: ", block_num)
                     
-
+        '''
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:  # 오른쪽 마우스 버튼 클릭 이벤트일 때
             mouse_x, mouse_y = event.pos
             block_x = mouse_x // 50
@@ -134,7 +135,7 @@ while running:
                                 board[y][x] = 0
                                 a.append((y, x))
                     block_num -=1
-            block_list.append(a)
+            block_list.append(a)'''
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
@@ -160,8 +161,8 @@ while running:
                     color_changed = True
                     hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다   
         
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_h:
+        #if event.type == pygame.KEYDOWN:
+            elif event.key == pygame.K_h:
                 boardCover(screen, board, block_list, H, W, block_num)
                 pygame.time.wait(5000)
 
