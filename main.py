@@ -23,7 +23,8 @@ original_board = [row[:] for row in board]  # 게임 보드의 초기 상태 저
 original_block = [row[:] for row in block_list]
 hover_color = 15
 
-screen = pygame.display.set_mode((W * 50, (H//2 + 1) * 300))
+#screen = pygame.display.set_mode((W * 50, (H//2 + 1) * 300))
+screen = pygame.display.set_mode((W * 50, H * 200))
 
 sw, sh = screen.get_size()
 sw_center = sw // 2
@@ -33,7 +34,8 @@ pygame.display.set_caption("Block Game")
 
 font = pygame.font.Font('Maplestory Bold.ttf', 36)  # 폰트 설정
 message = ""
-message_pos = (W * 50 // 2, H * 150 // 4)  # 메시지 위치 설정 (x, y)
+#message_pos = (W * 50 // 2, H * 150 // 4)  # 메시지 위치 설정 (x, y)
+message_pos = (60, 500)  
 
 def check_block_placement(mouse_x, mouse_y, block_x, block_y):  #해당 위치에 블록을 넣을 수 있는지 판별
     for dx, dy in block:
@@ -189,7 +191,8 @@ while running:
     tw_center = tw//2
     th_center = th//2
 
-    screen.blit(message_surface, (sw_center - tw_center, ((sh_center - th_center)/2)*3))  # 메시지 Surface를 화면에 그리기
+    #screen.blit(message_surface, (sw_center - tw_center, ((sh_center - th_center)/2)*3))  # 메시지 Surface를 화면에 그리기
+    screen.blit(message_surface, message_pos)  # 메시지 Surface를 화면에 그리기
 
 
     pygame.display.flip()
