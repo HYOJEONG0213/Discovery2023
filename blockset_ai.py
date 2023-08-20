@@ -13,6 +13,13 @@ import copy
 
 #answer = []
 
+pygame.init()
+
+font = pygame.font.Font('Maplestory Bold.ttf', 36)  # 폰트 설정
+message = ""
+#message_pos = (W * 50 // 2, H * 150 // 4)  # 메시지 위치 설정 (x, y)
+message_pos = (70, 500)  
+
 
 def draw_board(screen, board):
     screen.fill((255, 255, 255))  # 화면을 흰색으로 채우기
@@ -271,6 +278,8 @@ def boardCover(screen, board, blocks, H, W, block_num2):
                                 nx, ny
                             Q.append((new_board, level, remained_block, block_num2+1))  #새로운 상태의 보드를 생성하여 큐에 추가하기
                             draw_board(screen, new_board)
+                            
+
                             pygame.display.flip()
 
                             pygame.time.wait(5000)  # 0.5초 대기'''
@@ -322,6 +331,10 @@ def boardCover(screen, board, blocks, H, W, block_num2):
             a.append((ny, nx))
         answer.append(a)'''
     print("발견 실패!")
+    message = "발견 실패!"
+    message_surface = font.render(message, True, (0, 0, 0))  # 메시지를 렌더링하여 Surface 생성
+    screen.blit(message_surface, message_pos)  # 메시지 Surface를 화면에 그리기
+    pygame.display.flip()
     return board
         
 def find_empty_block(cur_board, board_empty_pos, x, y, W, H):
