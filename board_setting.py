@@ -2,14 +2,23 @@ import pygame
 
 def draw_board(screen, board):
     screen.fill((255, 255, 255))  # 화면을 흰색으로 채우기
+    sw, sh = screen.get_size() #생성된 스크린의 x y의 중앙값 추출
+    sw_center = sw // 2 #x축 센터
+    sh_center = sh // 2 #y축 센터    
 
     board_block_size = 40  # 각 블록의 크기
     border_size = 2  # 테두리 크기
 
+    board_y = len(board)
+    board_x = len(board[0])
+
+    board_rect = pygame.Rect((sw_center - board_x/2 * board_block_size) - 2 * border_size, 50 - 2 * border_size, board_x * board_block_size + 4 * border_size, board_x * board_block_size + 4 * border_size)
+    pygame.draw.rect(screen, (0, 0, 0), board_rect)
 
     for y, row in enumerate(board):
         for x, cell in enumerate(row):
-            rect = pygame.Rect(x * board_block_size, y * board_block_size + 50, board_block_size, board_block_size)
+            x_len = len(row)
+            rect = pygame.Rect(x * board_block_size + (sw_center - x_len/2 * board_block_size), y * board_block_size + 50, board_block_size, board_block_size)
             pygame.draw.rect(screen, (255, 255, 255), rect)  # 블록 테두리 그리기
             inner_rect = pygame.Rect(rect.left + border_size, rect.top + border_size, rect.width - 2 * border_size, rect.height - 2 * border_size)
 
