@@ -142,13 +142,15 @@ while running:
                 sys.exit()
             if button_7x7.collidepoint(mouse_pos):
                 print("7x7 버튼 선택!")
-                pygame.quit()
-                subprocess.run(["python", "main.py"])
+                r = random.randint(0, 1)
+                print(r)
+                game = Game(board_5x5[r], block_list_5x5[r])
                 sys.exit()
             if button_10x10.collidepoint(mouse_pos):
                 print("10x10 버튼 선택!")
-                pygame.quit()
-                subprocess.run(["python", "main.py"])
+                r = random.randint(0, 1)
+                print(r)
+                game = Game(board_5x5[r], block_list_5x5[r])
                 sys.exit()
             
 
