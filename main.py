@@ -8,8 +8,8 @@ def main():
             [0,0,0,0,0],
             [0,0,0,0,1],
             [1,0,0,0,1],
-            [1,0,1,0,1],]
-    block_list = [[(0,0), (0,1), (1,1)], [(0,0), (0,1), (0,2)], [(0,0), (0,1), (0,2), (1,2)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)], [(0,0),(0,1),(0,2),(0,3),(0,4)], [(0,0),(0,1),(1,0),(2,0)], [(0,0),(0,1),(0,2),(0,3),(0,4)], [(0,0),(0,1),(0,2),(0,3),(0,4)]]
+            [1,0,1,1,1],]
+    block_list = [[(0,0), (0,1), (1,1)], [(0,0), (0,1), (0,2), (1,2)], [(0,0), (0,1), (0,2), (1,1)], [(0,0), (0,1), (1,0), (1,1)]]
     used_block_num = 0
     block = []
     '''block = [[(0,0),(0,1),(0,2)],[(0,0),(0,1),(1,1)], #3칸
@@ -50,6 +50,15 @@ def main():
             if board[ny][nx] != 0:
                 return False
         return True
+    
+    def check_board_complete():
+        flag = True
+        for h in range(len(board)):
+            for w in range(len(board[h])):
+                if board[h][w] == 0:
+                    flag = False
+                    return flag
+        return flag
 
     running = True
     hovered_block = None  # 마우스 위에 있는 블록 위치
@@ -61,8 +70,19 @@ def main():
                 running = False
             elif block!=None and event.type == pygame.MOUSEMOTION:  #마우스 이동 이벤트 발생시 마우스 x, y값 가져옴
                 mouse_x, mouse_y = event.pos
-                block_x = mouse_x // 50
-                block_y = mouse_y // 60
+
+                block_x_avg = 0
+                block_y_avg = 0
+                for i in range(len(block)):
+                    x, y = block[i]
+                    block_x_avg += x
+                    block_y_avg += y
+                if len(block) != 0:
+                    block_x_avg /= len(block)
+                    block_y_avg /= len(block)
+
+                block_x = mouse_x // 40 - 1 - round(block_x_avg)
+                block_y = mouse_y // 40 - 1 - round(block_y_avg)
                 
                 if hovered_block == None:
                     if check_block_placement(mouse_x, mouse_y, block_x, block_y):   #블록을 현재 위치에 넣을 수 있다면 확인하기
@@ -106,8 +126,20 @@ def main():
                     hovered_block = None
                 else:
                     mouse_x, mouse_y = event.pos
-                    block_x = mouse_x // 50
-                    block_y = mouse_y // 60
+                    
+                    block_x_avg = 0
+                    block_y_avg = 0
+                    for i in range(len(block)):
+                        x, y = block[i]
+                        block_x_avg += x
+                        block_y_avg += y
+                    if len(block) != 0:
+                        block_x_avg /= len(block)
+                        block_y_avg /= len(block)
+
+                    block_x = mouse_x // 40 - 1 - round(block_x_avg)
+                    block_y = mouse_y // 40 - 1 - round(block_y_avg)
+
                     if check_block_placement(mouse_x, mouse_y, block_x, block_y):
                         for dx, dy in block:
                             nx, ny = block_x + dx, block_y + dy
@@ -125,6 +157,15 @@ def main():
                                 block_list'''
                         block = None
                         print("block_num: ", block_num)
+                        flag = check_board_complete()
+                        if flag == True:
+                            message = "Clear!"
+                            message_surface = font.render(message, True, (0, 0, 0))  # 메시지 Surface 생성
+                            tw, th = message_surface.get_size()
+                            tw_center = tw//2
+                            th_center = th//2
+                            screen.blit(message_surface, (sw_center - tw_center, sh_center - th_center))
+                    
                         
             '''
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:  # 오른쪽 마우스 버튼 클릭 이벤트일 때
@@ -146,6 +187,8 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     print(block)
+                    x_min = 0
+                    y_min = 0
                     for pos in range(len(block)):
                         pos_list = list(block[pos])
                         temp = pos_list[0]
@@ -153,11 +196,36 @@ def main():
                         pos_list[1] = temp * -1
                         block[pos] = tuple(pos_list)
                     print(block)
+                    for pos in range(len(block)):
+                        pos_list = block[pos]
+                        if x_min > pos_list[0]:
+                            x_min = pos_list[0]
+                        if y_min > pos_list[1]:
+                            y_min = pos_list[1]
+                    for pos in range(len(block)):
+                        pos_list = list(block[pos])
+                        pos_list[0] -= x_min
+                        pos_list[1] -= y_min
+                        block[pos] = tuple(pos_list)
                     for i in range(len(board)):
                         for j in range(len(board[0])):
                             if board[i][j] == hover_color:
                                 board[i][j] = 0
                     color_changed = True
+
+
+                    block_x_avg = 0
+                    block_y_avg = 0
+                    for i in range(len(block)):
+                        x, y = block[i]
+                        block_x_avg += x
+                        block_y_avg += y
+                    if len(block) != 0:
+                        block_x_avg /= len(block)
+                        block_y_avg /= len(block)
+
+                    block_x = mouse_x // 40 - 1 - round(block_x_avg)
+                    block_y = mouse_y // 40 - 1 - round(block_y_avg)
                     if check_block_placement(mouse_x, mouse_y, block_x, block_y):   #블록을 현재 위치에 넣을 수 있다면 확인하기
                         for dx, dy in block:
                             nx, ny = block_x + dx, block_y + dy
@@ -165,12 +233,33 @@ def main():
                                 #original_board[ny][nx] = board[ny][nx]      
                                 board[ny][nx] = hover_color   #신규 hover된 위치의 색깔을 바꾸기
                         color_changed = True
-                        hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다   
+                        hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다 
+
             
             #if event.type == pygame.KEYDOWN:
                 elif event.key == pygame.K_h:
+                    for i in range(len(board)):
+                        for j in range(len(board[0])):
+                            if board[i][j] == hover_color:
+                                board[i][j] = 0
                     boardCover(screen, board, block_list, H, W, block_num)
-                    pygame.time.wait(5000)
+                
+                elif event.key == pygame.K_c:
+                    for i in range(len(board)):
+                        for j in range(len(board[0])):
+                            if board[i][j] != 1:
+                                board[i][j] = 0
+                    print("activated")
+                    block_list = [row[:] for row in original_block]
+                    board = [row[:] for row in original_board]
+                    used_block_num = 0
+                    block_num = 2
+                    hovered_block = None  # 마우스 위에 있는 블록 위치
+                    color_changed = False
+                    block = []
+                    selected_color_num = None
+                    print(block_list)
+                    message = ""
 
         draw_board(screen, board)
         block_info = draw_block(screen, block_list, H, block_num)
