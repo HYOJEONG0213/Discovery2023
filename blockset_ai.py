@@ -221,11 +221,19 @@ def boardCover(screen, board, blocks, H, W, block_num2):
                                 nx, ny
                             Q.append((new_board, level, remained_block, block_num2+1))  #새로운 상태의 보드를 생성하여 큐에 추가하기
                             draw_board(screen, new_board)
-                            
+                            message = "해답 발견"
+                            message_surface = font.render(message, True, (0, 0, 0))  # 메시지 Surface 생성
+                            tw, th = message_surface.get_size()
+                            tw_center = tw//2
+                            th_center = th//2
+                            sw, sh = screen.get_size() #생성된 스크린의 x y의 중앙값 추출
+                            sw_center = sw // 2 #x축 센터
+                            sh_center = sh // 2 #y축 센터
+                            screen.blit(message_surface, (sw_center - tw_center, sh_center - th_center))
 
                             pygame.display.flip()
 
-                            pygame.time.wait(5000)  # 0.5초 대기'''
+                            pygame.time.wait(3000)  # 0.5초 대기'''
                             return
             else:
                 for cover in blocks:
