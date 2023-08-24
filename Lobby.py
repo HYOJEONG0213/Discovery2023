@@ -99,7 +99,11 @@ while running:
                 rule()
             elif exit_button.collidepoint(mouse_pos):
                 running = False
-        elif (current_image == Introduce) or (current_image == Rule) and event.type == pygame.MOUSEBUTTONDOWN:   #뒤로가기 버튼을 눌렀을 때 Lobby2로 돌아가기
+        elif (current_image == Introduce) and event.type == pygame.MOUSEBUTTONDOWN:   #뒤로가기 버튼을 눌렀을 때 Lobby2로 돌아가기
+            mouse_pos = pygame.mouse.get_pos()
+            if back_button.collidepoint(mouse_pos):
+                Lobby2()
+        elif (current_image == Rule) and event.type == pygame.MOUSEBUTTONDOWN:   #뒤로가기 버튼을 눌렀을 때 Lobby2로 돌아가기
             mouse_pos = pygame.mouse.get_pos()
             if back_button.collidepoint(mouse_pos):
                 Lobby2()
