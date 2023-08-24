@@ -42,9 +42,10 @@ def show_instructions():
     pygame.display.flip()
 
 # 버튼 생성
-start_button = pygame.Rect(35, 200, 330, 35)   #x, y, width, height 좌표
-instructions_button = pygame.Rect(35, 285, 330, 35)
-
+instructions_button = pygame.Rect(35, 200, 330, 35)   #x, y, width, height 좌표
+rules_button = pygame.Rect(35, 285, 330, 35)
+start_button= pygame.Rect(35, 370, 330, 35)
+exit_button= pygame.Rect(35, 455, 330, 35)
 # 게임 루프
 running = True
 while running:
@@ -59,11 +60,17 @@ while running:
                 sys.exit()
             elif instructions_button.collidepoint(mouse_pos):
                 show_instructions()
+            elif rules_button.collidepoint(mouse_pos):
+                show_instructions()
+            elif exit_button.collidepoint(mouse_pos):
+                running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:    # 엔터 키를 누르면
                 current_image = Lobby_2
-                pygame.draw.rect(screen, (0,0,0,0), start_button)
-                pygame.draw.rect(screen, (0,0,0,0), instructions_button)
+                pygame.draw.rect(screen, black, instructions_button)
+                pygame.draw.rect(screen, black, rules_button)
+                pygame.draw.rect(screen, black, start_button)
+                pygame.draw.rect(screen, black, exit_button)
                 pygame.display.flip()
     # 배경 색
     screen.fill(white)
