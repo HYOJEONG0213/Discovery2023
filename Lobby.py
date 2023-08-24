@@ -15,16 +15,21 @@ Lobby_1 = pygame.image.load("Lobby_1.png")
 Lobby_2 = pygame.image.load("Lobby_2.png")
 Introduce = pygame.image.load("Introduce.png")
 Rule = pygame.image.load("Rule.png")
+SelectPuzzle = pygame.image.load("Select_image.png")
 image_y = 0
+
 current_image = Lobby_1
 
 def draw_images():
     screen.blit(current_image, (0, image_y))
-    #pygame.draw.rect(screen, black, rules_button)
+    #pygame.draw.rect(screen, black, button_5x5)
+    #pygame.draw.rect(screen, black, button_7x7)
+    #pygame.draw.rect(screen, black, button_10x10)
 
 
 black = (0, 0, 0)
 white = (255, 255, 255)
+null_color = (0, 0, 0, 0)
 
 # 폰트 설정
 font = pygame.font.Font('Maplestory Bold.ttf', 36)  # 폰트 설정
@@ -55,6 +60,15 @@ def rule():
     pygame.draw.rect(screen, black, back_button)
     pygame.display.flip()
 
+def Select_puzzle():
+    pygame.init()
+    global current_image
+    current_image = SelectPuzzle
+    pygame.draw.rect(screen, null_color, button_5x5)
+    pygame.draw.rect(screen, null_color, button_7x7)
+    pygame.draw.rect(screen, null_color, button_10x10)
+    pygame.display.flip()
+
 
 # 버튼 생성
 instructions_button = pygame.Rect(35, 200, 330, 35)   #x, y, width, height 좌표
@@ -62,7 +76,9 @@ rules_button = pygame.Rect(35, 285, 330, 35)
 start_button= pygame.Rect(35, 370, 330, 35)
 exit_button= pygame.Rect(35, 455, 330, 35)
 back_button = pygame.Rect(0, 35, 60, 60)
-
+button_5x5 = pygame.Rect(75, 120, 250, 140)
+button_7x7 = pygame.Rect(75, 280, 250, 140)
+button_10x10 = pygame.Rect(75, 440, 250, 140)
 
 # 게임 루프
 running = True
@@ -70,25 +86,49 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if current_image == Lobby_2 and event.type == pygame.MOUSEBUTTONDOWN:
+        elif current_image == Lobby_2 and event.type == pygame.MOUSEBUTTONDOWN:   #로비에서 게임메뉴 버튼을 눌렀을 때
             mouse_pos = pygame.mouse.get_pos()
             if start_button.collidepoint(mouse_pos):
-                pygame.quit()
-                subprocess.run(["python", "Game.py"])
-                sys.exit()
+                Select_puzzle()
+                #pygame.quit()
+                #subprocess.run(["python", "main.py"])
+                #sys.exit()
             elif instructions_button.collidepoint(mouse_pos):
                 instructions()
             elif rules_button.collidepoint(mouse_pos):
                 rule()
             elif exit_button.collidepoint(mouse_pos):
                 running = False
-        if (current_image == Introduce or Rule) and event.type == pygame.MOUSEBUTTONDOWN:
+        elif (current_image == Introduce) and event.type == pygame.MOUSEBUTTONDOWN:   #뒤로가기 버튼을 눌렀을 때 Lobby2로 돌아가기
             mouse_pos = pygame.mouse.get_pos()
             if back_button.collidepoint(mouse_pos):
                 Lobby2()
-        if event.type == pygame.KEYDOWN:
+        elif (current_image == Rule) and event.type == pygame.MOUSEBUTTONDOWN:   #뒤로가기 버튼을 눌렀을 때 Lobby2로 돌아가기
+            mouse_pos = pygame.mouse.get_pos()
+            if back_button.collidepoint(mouse_pos):
+                Lobby2()
+        elif current_image == Lobby_1 and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:    # 엔터 키를 누르면
                 Lobby2()
+        elif (current_image == SelectPuzzle) and event.type == pygame.MOUSEBUTTONDOWN:   #퍼즐 선택창에서 퍼즐크기를 선택했을 때
+            mouse_pos = pygame.mouse.get_pos()
+            if button_5x5.collidepoint(mouse_pos):
+                print("5x5 버튼 선택!")
+                pygame.quit()
+                subprocess.run(["python", "main.py"])
+                sys.exit()
+            if button_7x7.collidepoint(mouse_pos):
+                print("7x7 버튼 선택!")
+                pygame.quit()
+                subprocess.run(["python", "main.py"])
+                sys.exit()
+            if button_10x10.collidepoint(mouse_pos):
+                print("10x10 버튼 선택!")
+                pygame.quit()
+                subprocess.run(["python", "main.py"])
+                sys.exit()
+            
+
     # 배경 색
     screen.fill(white)
     draw_images()
@@ -100,7 +140,7 @@ while running:
     #start_text = font.render("게임 시작", True, black)
     #instructions_text = font.render("게임 방법", True, black)
     #screen.blit(start_text, (start_button.x + 50, start_button.y + 10))
-    #screen.blit(instructions_text, (instructions_button.x + 30, instructions_button.y + 10))
+    #screen.blit(instructions_text, (instructions_button.x + 30, instructions_button.y + 10))   
 
     pygame.display.flip()
 
