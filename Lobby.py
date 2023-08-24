@@ -13,12 +13,14 @@ pygame.display.set_caption("Block Game")
 
 Lobby_1 = pygame.image.load("Lobby_1.png")
 Lobby_2 = pygame.image.load("Lobby_2.png")
+Introduce = pygame.image.load("Introduce.png")
+Rule = pygame.image.load("Rule.png")
 image_y = 0
 current_image = Lobby_1
 
-
 def draw_images():
     screen.blit(current_image, (0, image_y))
+    #pygame.draw.rect(screen, black, rules_button)
 
 
 black = (0, 0, 0)
@@ -28,24 +30,41 @@ white = (255, 255, 255)
 font = pygame.font.Font('Maplestory Bold.ttf', 36)  # 폰트 설정
 
 
-
-def show_instructions():
-    instructions = ["블럭 맞추기 게임!",
-                    "마우스로 블럭을 클릭하면 블럭이 놓아집니다.",
-                    "R키를 누르면 블럭이 회전합니다."
-                    "블럭 맞추다가 모르겠으면 H 버튼을 눌러보세요!"]
-    screen.fill(black)
-    
-    for i, line in enumerate(instructions):
-        text = font.render(line, True, white)
-        screen.blit(text, (50, 200 + i * 40))
+def Lobby2():
+    global current_image
+    current_image = Lobby_2
+    pygame.draw.rect(screen, black, instructions_button)
+    pygame.draw.rect(screen, black, rules_button)
+    pygame.draw.rect(screen, black, start_button)
+    pygame.draw.rect(screen, black, exit_button)
     pygame.display.flip()
+    
+
+def instructions():
+    pygame.init()
+    global current_image
+    current_image = Introduce
+    pygame.draw.rect(screen, black, back_button)
+    pygame.display.flip()
+
+
+def rule():
+    pygame.init()
+    global current_image
+    current_image = Rule
+    pygame.draw.rect(screen, black, back_button)
+    pygame.display.flip()
+
 
 # 버튼 생성
 instructions_button = pygame.Rect(35, 200, 330, 35)   #x, y, width, height 좌표
 rules_button = pygame.Rect(35, 285, 330, 35)
 start_button= pygame.Rect(35, 370, 330, 35)
 exit_button= pygame.Rect(35, 455, 330, 35)
+back_button = pygame.Rect(0, 35, 60, 60)
+
+
+
 # 게임 루프
 running = True
 while running:
@@ -59,22 +78,20 @@ while running:
                 subprocess.run(["python", "main.py"])
                 sys.exit()
             elif instructions_button.collidepoint(mouse_pos):
-                show_instructions()
+                instructions()
             elif rules_button.collidepoint(mouse_pos):
-                show_instructions()
+                rule()
             elif exit_button.collidepoint(mouse_pos):
                 running = False
+        if (current_image == Introduce or Rule) and event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            if back_button.collidepoint(mouse_pos):
+                Lobby2()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:    # 엔터 키를 누르면
-                current_image = Lobby_2
-                pygame.draw.rect(screen, black, instructions_button)
-                pygame.draw.rect(screen, black, rules_button)
-                pygame.draw.rect(screen, black, start_button)
-                pygame.draw.rect(screen, black, exit_button)
-                pygame.display.flip()
+                Lobby2()
     # 배경 색
     screen.fill(white)
-
     draw_images()
 
     # 버튼 그리기
