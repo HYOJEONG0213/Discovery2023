@@ -32,7 +32,7 @@ def draw_board(screen, board):
     sw_center = sw // 2 #x축 센터
     sh_center = sh // 2 #y축 센터
 
-    rule_message = "R: 회전 / H: 힌트 / C: 초기화"
+    rule_message = "C: 초기화 / H: 힌트 / R: 회전"
     rule_message_surface = font.render(rule_message, True, (0, 0, 0))  # 메시지 Surface 생성
     tw, th = rule_message_surface.get_size()
     tw_center = tw//2
