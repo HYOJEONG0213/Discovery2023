@@ -19,9 +19,9 @@ class Game:
         selected_color_num = None
         original_board = [row[:] for row in board]  # 게임 보드의 초기 상태 저장
         original_block = [row[:] for row in block_list]
-        hover_color = 15 #호버 상태일 때 블록 색
+        hover_color = 20 #호버 상태일 때 블록 색
 
-        screen = pygame.display.set_mode((W * 40 + 100, H * 60 + (len(block_list)//2+1) * 95)) #한 열에 블록 2개 씩 배치 -> 스크린 길이 배치된 블럭의 열 수에 맞춰 조절
+        screen = pygame.display.set_mode(((len(block_list)//2 + 1)*130, H * 40 + 400)) #한 열에 블록 2개 씩 배치 -> 스크린 길이 배치된 블럭의 열 수에 맞춰 조절
         #screen = pygame.display.set_mode((W * 50, H * 200))
 
         sw, sh = screen.get_size() #생성된 스크린의 x y의 중앙값 추출
@@ -280,7 +280,7 @@ class Game:
             tw_center = tw//2
             th_center = th//2
 
-            screen.blit(message_surface, (sw_center - tw_center, ((sh_center - th_center)/2)*3))  # 메시지 Surface를 화면에 그리기
+            screen.blit(message_surface, (sw_center - tw_center, sh_center))  # 메시지 Surface를 화면에 그리기
             #screen.blit(message_surface, message_pos)  # 메시지 Surface를 화면에 그리기
 
 

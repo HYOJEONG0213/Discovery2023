@@ -102,26 +102,7 @@ def boardCover(screen, board, blocks, H, W, block_num2):
 
             if y != -1:     
                 break
-            print("\n")   
-
-        if x == -1 and y == -1:     #모두 다 차있다면
-            #sorted_values = [sorted(value) for value in block_to_remove.values()]
-            #unique_values = set(tuple(value) for value in sorted_values)
-            #if len(unique_values) != len(block_to_remove):
-             #   continue
-
-            answer = True
-            print(cur_block)
-            for i in range(H):
-                for j in range(W):
-                    board[i][j] = cur_board[i][j]
-                    print(cur_board[i][j], end =' ')
-                print("\n")
-            print()
-            draw_board(screen, board)
-            return("clear!")
-            #continue
-            pygame.time.wait(3000)  # 0.5초 대기
+            print("\n")
 
 
         for i in range(H):      
@@ -286,6 +267,7 @@ def boardCover(screen, board, blocks, H, W, block_num2):
     message_surface = font.render(message, True, (0, 0, 0))  # 메시지를 렌더링하여 Surface 생성
     screen.blit(message_surface, message_pos)  # 메시지 Surface를 화면에 그리기
     pygame.display.flip()
+    pygame.time.wait(1000)
     return board
         
 def find_empty_block(cur_board, board_empty_pos, x, y, W, H):
