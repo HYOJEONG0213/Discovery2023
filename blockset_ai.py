@@ -227,7 +227,13 @@ def boardCover(screen, board, blocks, H, W, block_num2):
     print("발견 실패!")
     message = "발견 실패!"
     message_surface = font.render(message, True, (0, 0, 0))  # 메시지를 렌더링하여 Surface 생성
-    screen.blit(message_surface, message_pos)  # 메시지 Surface를 화면에 그리기
+    tw, th = message_surface.get_size()
+    tw_center = tw//2
+    th_center = th//2
+    sw, sh = screen.get_size()
+    sw_center = sw /2
+    sh_center = sh /2
+    screen.blit(message_surface, (sw_center-tw_center, H * 40  + 130 + 82 - th/2))  # 메시지 Surface를 화면에 그리기
     pygame.display.flip()
     pygame.time.wait(1000)
     return board
