@@ -196,7 +196,7 @@ while running:
                 print("5x5 버튼 선택!")
                 r = random.randint(0, len(board_5x5)-1)
                 print(r)
-                game = Game(board_5x5[3], block_list_5x5[3])
+                game = Game(board_5x5[4], block_list_5x5[4])
                 sys.exit()
             if button_7x7.collidepoint(mouse_pos):
                 print("7x7 버튼 선택!")
