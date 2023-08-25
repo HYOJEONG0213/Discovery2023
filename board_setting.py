@@ -46,32 +46,42 @@ def select_color(cell):
     elif cell == 1:
         color = (0, 0, 0)   #검정색: 이미 차있는 블럭
     elif cell == 2:
-        color = (0, 255, 0)     #초록색(녹색성분)
+        color = (255, 0, 0)     #초록색(녹색성분)
     elif cell == 3:
-        color = (0, 128, 0)     #초록색
+        color = (0, 255, 0)     #초록색
     elif cell == 4:
-        color = (255, 0, 0)   #레드(빨강 성분)
+        color = (0, 0, 255)   #레드(빨강 성분)
     elif cell == 5:
-        color = (255, 165, 0)   #주황색(빨강, 녹색성분)
+        color = (127, 0, 0)   #주황색(빨강, 녹색성분)
     elif cell == 6:
-        color = (255, 99, 71)   #주황색
+        color = (0, 127, 0)   #주황색
     elif cell == 7:
-        color =  (0, 0, 255)   #파란색
+        color =  (0, 0, 127)   #파란색
     elif cell == 8:
-        color = (0, 0, 128)   #파란색
+        color = (255, 255, 0)   #파란색
     elif cell == 9:
-        color = (0, 0, 139)   #파란색
+        color = (0, 255, 255)   #파란색
     elif cell == 10:
-        color = (128, 0, 128)   #보라색(빨강, 파랑 성분)
+        color = (255, 0, 255)   #보라색(빨강, 파랑 성분)
     elif cell == 11:
-        color = (148, 0, 211)    #보라색
+        color = (127, 127, 0)    #보라색
     elif cell == 12:
-        color = (255, 255, 0)    #노란색(빨강, 녹색 성분)
+        color = (0, 127, 127)    #노란색(빨강, 녹색 성분)
     elif cell == 13:
-        color = (255, 255, 102)    #노란색
+        color = (127, 0, 127)    #노란색
     elif cell == 14:
-        color = (255, 105, 180)    #핑크색 (빨강 성분)
+        color = (255, 127, 0)    #핑크색 (빨강 성분)
     elif cell == 15:
+        color = (255, 0, 127)    #노란색
+    elif cell == 16:
+        color = (127, 255, 0)    #노란색
+    elif cell == 17:
+        color = (0, 255, 127)    #노란색
+    elif cell == 18:
+        color = (127, 0, 255)    #노란색
+    elif cell == 19:
+        color = (0, 127, 255)    #노란색
+    elif cell == 20:
         color = (255, 182, 193)    #핑크색 (빨강 성분) <- hover
     else:
         color = (255, 255, 255)
@@ -86,7 +96,7 @@ def draw_block(screen, block_list, H, color_num):
     block_size = 25  # 블록의 크기
     border_size = 2  # 테두리 크기
     start_x = 0  # 블록들의 모양 시작 X 좌표
-    start_y = H * 60  + block_size*2 # 블록들의 모양 시작 Y 좌표
+    start_y = H * 40  + 130# 블록들의 모양 시작 Y 좌표
     spacing = 5  # 블록들 간의 간격
 
     for idx, block in enumerate(block_list):
@@ -99,15 +109,28 @@ def draw_block(screen, block_list, H, color_num):
                 y_avg = y
         x_avg = (x_avg + 1) / 2
         y_avg = (y_avg + 1) / 2
+        h_idx = len(block_list) // 2 + 1
 
-        if idx % 3 == 2:
-            start_x = (sw/4)*3 - (x_avg * (block_size + spacing))
+        for i in range(0, h_idx):
+            if idx % h_idx == h_idx - i - 1:
+                start_x = (sw/(h_idx+1)) * (h_idx - i) - (x_avg * (block_size + spacing))
+                break
 
-        elif idx % 3 == 1:
-            start_x = (sw/4)*2 - (x_avg * (block_size + spacing))
+        '''if idx % 7 == 6:
+            start_x = (sw/8)*7 - (x_avg * (block_size + spacing))
+        elif idx % 7 == 5:
+            start_x = (sw/8)*6 - (x_avg * (block_size + spacing))
+        elif idx % 7 == 4:
+            start_x = (sw/8)*5 - (x_avg * (block_size + spacing))
+        elif idx % 7 == 3:
+            start_x = (sw/8)*4 - (x_avg * (block_size + spacing))
+        elif idx % 7 == 2:
+            start_x = (sw/8)*3 - (x_avg * (block_size + spacing))
+        elif idx % 7 == 1:
+            start_x = (sw/8)*2 - (x_avg * (block_size + spacing))
 
         else:
-            start_x = sw/4 - (x_avg * (block_size + spacing))
+            start_x = sw/8 - (x_avg * (block_size + spacing))'''
 
         for x, y in block:
             rect = pygame.Rect(start_x + (x * (block_size + spacing)),
@@ -122,8 +145,8 @@ def draw_block(screen, block_list, H, color_num):
 
             block_info.append({"color_num":color_num, "rect":rect})
         
-        if idx % 3 == 2:
-            start_y += sh/(len(block_list)) + (block_size/2)*3
+        if idx % h_idx == h_idx - 1:
+            start_y += 165
 
         color_num +=1
     return block_info
