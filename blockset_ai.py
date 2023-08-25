@@ -134,7 +134,7 @@ def boardCover(screen, board, blocks, H, W, block_num2):
 
         #block_to_remove = {}
         for block_num, coords_list in block_to_remove.items():  #현재까지 어떤 블록을 썼었는지 대칭이동 시키기(블럭 모양 확인)
-            coords_list.sort(key=lambda coord: (coord[0], coord[1]))  # 람다 함수를 사용하여 y좌표를 기준으로 정렬하고, 그 후 x좌표를 기준으로 정렬합니다.
+            coords_list.sort(key=lambda coord: (coord[0], coord[1]))  # X->Y축 정렬
             min_x = min(x for x, y in coords_list)
             min_y = min(y for x, y in coords_list)
 

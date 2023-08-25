@@ -35,6 +35,7 @@ class Game:
         #message_pos = (W * 50 // 2, H * 150 // 4)  # 메시지 위치 설정 (x, y), 지금 안쓰임
         #message_pos = (60, 500)  
 
+
         def check_block_placement(mouse_x, mouse_y, block_x, block_y):  #해당 위치에 블록을 넣을 수 있는지 판별
             for dx, dy in block:
                 nx, ny = block_x + dx, block_y + dy
@@ -294,4 +295,5 @@ class Game:
 
 
 if __name__=="__main__":
-    main()
+    pass
+    #main()

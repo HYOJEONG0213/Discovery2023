@@ -27,6 +27,19 @@ def draw_board(screen, board):
             pygame.draw.rect(screen, (255,255,255), rect, border_size)
             pygame.draw.rect(screen, color, inner_rect)
 
+    font = pygame.font.Font('Maplestory Bold.ttf', 20)  # 폰트 설정
+    sw, sh = screen.get_size() #생성된 스크린의 x y의 중앙값 추출
+    sw_center = sw // 2 #x축 센터
+    sh_center = sh // 2 #y축 센터
+
+    rule_message = "R: 회전 / H: 힌트 / C: 초기화"
+    rule_message_surface = font.render(rule_message, True, (0, 0, 0))  # 메시지 Surface 생성
+    tw, th = rule_message_surface.get_size()
+    tw_center = tw//2
+    th_center = th//2
+    screen.blit(rule_message_surface, (sw_center - tw_center, 10))
+    
+
 def select_color(cell):
     if cell == 0:
         color = (255, 255, 255)     #흰색: 비어있는 블럭
