@@ -150,8 +150,8 @@ rules_button = pygame.Rect(35, 285, 330, 35)
 start_button= pygame.Rect(35, 370, 330, 35)
 exit_button= pygame.Rect(35, 455, 330, 35)
 back_button = pygame.Rect(0, 35, 60, 60)
-button_5x5 = pygame.Rect(75, 120, 250, 140)
-button_7x7 = pygame.Rect(75, 280, 250, 140)
+button_5x5 = pygame.Rect(75, 200, 250, 140)
+button_7x7 = pygame.Rect(75, 360, 250, 140)
 #button_10x10 = pygame.Rect(75, 440, 250, 140)
 
 # 게임 루프
