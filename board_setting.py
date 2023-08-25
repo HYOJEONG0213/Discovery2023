@@ -109,28 +109,12 @@ def draw_block(screen, block_list, H, color_num):
                 y_avg = y
         x_avg = (x_avg + 1) / 2
         y_avg = (y_avg + 1) / 2
-        h_idx = len(block_list) // 2 + 1
+        h_idx = (len(block_list) + 1) // 2
 
         for i in range(0, h_idx):
             if idx % h_idx == h_idx - i - 1:
                 start_x = (sw/(h_idx+1)) * (h_idx - i) - (x_avg * (block_size + spacing))
                 break
-
-        '''if idx % 7 == 6:
-            start_x = (sw/8)*7 - (x_avg * (block_size + spacing))
-        elif idx % 7 == 5:
-            start_x = (sw/8)*6 - (x_avg * (block_size + spacing))
-        elif idx % 7 == 4:
-            start_x = (sw/8)*5 - (x_avg * (block_size + spacing))
-        elif idx % 7 == 3:
-            start_x = (sw/8)*4 - (x_avg * (block_size + spacing))
-        elif idx % 7 == 2:
-            start_x = (sw/8)*3 - (x_avg * (block_size + spacing))
-        elif idx % 7 == 1:
-            start_x = (sw/8)*2 - (x_avg * (block_size + spacing))
-
-        else:
-            start_x = sw/8 - (x_avg * (block_size + spacing))'''
 
         for x, y in block:
             rect = pygame.Rect(start_x + (x * (block_size + spacing)),

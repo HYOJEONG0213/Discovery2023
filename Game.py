@@ -21,7 +21,7 @@ class Game:
         original_block = [row[:] for row in block_list]
         hover_color = 20 #호버 상태일 때 블록 색
 
-        screen = pygame.display.set_mode(((len(block_list)//2 + 1)*130, H * 40 + 400)) #한 열에 블록 2개 씩 배치 -> 스크린 길이 배치된 블럭의 열 수에 맞춰 조절
+        screen = pygame.display.set_mode((((len(block_list) + 1)//2)*130, H * 40 + 400)) #한 열에 블록 2개 씩 배치 -> 스크린 길이 배치된 블럭의 열 수에 맞춰 조절
         #screen = pygame.display.set_mode((W * 50, H * 200))
 
         sw, sh = screen.get_size() #생성된 스크린의 x y의 중앙값 추출
@@ -74,8 +74,7 @@ class Game:
                     if len(block) != 0:
                         block_x_avg /= len(block)
                         block_y_avg /= len(block)
-
-                    block_x = mouse_x // 40 - 1 - round(block_x_avg)
+                    block_x = mouse_x // 40  - round(block_x_avg) - (sw_center - len(board[0]) * 20)//40
                     block_y = mouse_y // 40 - 1 - round(block_y_avg)
                     
                     if hovered_block == None:
@@ -131,7 +130,7 @@ class Game:
                             block_x_avg /= len(block)
                             block_y_avg /= len(block)
 
-                        block_x = mouse_x // 40 - 1 - round(block_x_avg)
+                        block_x = mouse_x // 40 - round(block_x_avg) - (sw_center - len(board[0]) * 20)//40
                         block_y = mouse_y // 40 - 1 - round(block_y_avg)
 
                         if check_block_placement(mouse_x, mouse_y, block_x, block_y):
@@ -257,8 +256,6 @@ class Game:
 
             draw_board(screen, board)
             block_info = draw_block(screen, block_list, H, block_num)
-
-            
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # 마우스 왼쪽 버튼 클릭 이벤트일 때
                 mouse_x, mouse_y = event.pos
