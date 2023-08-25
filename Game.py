@@ -88,6 +88,7 @@ class Game:
                             hovered_block = (block_x, block_y)  # 현재 이 블록에 hover했다고 설정한다.
 
                     if hovered_block != None and hovered_block != (block_x, block_y):   #이전 hover된 블록과 현재 hover된 블록이 다르다면
+                        pygame.time.wait(1)
                         for dx, dy in block:
                             nx, ny = hovered_block[0] + dx, hovered_block[1] + dy
                             if 0 <= nx < W and 0 <= ny < H:
@@ -178,7 +179,7 @@ class Game:
                     block_list.append(a)'''
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_r:
+                    if block != None and event.key == pygame.K_r:
                         print(block)
                         x_min = 0
                         y_min = 0
@@ -231,11 +232,12 @@ class Game:
                 
                 #if event.type == pygame.KEYDOWN:
                     elif event.key == pygame.K_h:
-                        for i in range(len(board)):
-                            for j in range(len(board[0])):
-                                if board[i][j] == hover_color:
-                                    board[i][j] = 0
-                        boardCover(screen, board, block_list, H, W, block_num)
+                        if len(block_list)*2 <= len(original_block):
+                            for i in range(len(board)):
+                                for j in range(len(board[0])):
+                                    if board[i][j] == hover_color:
+                                        board[i][j] = 0
+                            boardCover(screen, board, block_list, H, W, block_num)
                     
                     elif event.key == pygame.K_c:
                         for i in range(len(board)):
@@ -277,7 +279,7 @@ class Game:
             tw_center = tw//2
             th_center = th//2
 
-            screen.blit(message_surface, (sw_center - tw_center, sh_center))  # 메시지 Surface를 화면에 그리기
+            screen.blit(message_surface, (sw_center - tw_center, H * 40  + 130 + 82 - th/2))  # 메시지 Surface를 화면에 그리기
             #screen.blit(message_surface, message_pos)  # 메시지 Surface를 화면에 그리기
 
 
