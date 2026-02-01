@@ -1,7 +1,7 @@
 # enqueue: 아이템을 추가하는 것
 # dequeue: 아이템을 빼는 것(삭제되는 가장 앞에 있는 노드)
 
-import Dlist
+import src.utils.Dlist as Dlist
 
 #empty 리스트 만들기
 class Queue:

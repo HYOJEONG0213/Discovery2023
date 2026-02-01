@@ -27,7 +27,7 @@ def draw_board(screen, board):
             pygame.draw.rect(screen, (255,255,255), rect, border_size)
             pygame.draw.rect(screen, color, inner_rect)
 
-    font = pygame.font.Font('Maplestory Bold.ttf', 20)  # 폰트 설정
+    font = pygame.font.Font('assets/fonts/Maplestory Bold.ttf', 20)  # 폰트 설정
     sw, sh = screen.get_size() #생성된 스크린의 x y의 중앙값 추출
     sw_center = sw // 2 #x축 센터
     sh_center = sh // 2 #y축 센터

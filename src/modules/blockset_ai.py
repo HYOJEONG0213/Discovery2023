@@ -10,13 +10,13 @@
 from collections import deque
 import pygame
 import copy
-from board_setting import *
+from src.modules.board_setting import *
 
 #answer = []
 
 pygame.init()
 
-font = pygame.font.Font('Maplestory Bold.ttf', 36)  # 폰트 설정
+font = pygame.font.Font('assets/fonts/Maplestory Bold.ttf', 36)  # 폰트 설정
 message = ""
 #message_pos = (W * 50 // 2, H * 150 // 4)  # 메시지 위치 설정 (x, y)
 message_pos = (70, 500)  

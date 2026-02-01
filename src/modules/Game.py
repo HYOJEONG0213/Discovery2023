@@ -1,5 +1,5 @@
-from blockset_ai import *
-from board_setting import *
+from src.modules.blockset_ai import *
+from src.modules.board_setting import *
 
 class Game:
     def __init__(self, board, block_list):
@@ -30,7 +30,7 @@ class Game:
 
         pygame.display.set_caption("Block Game")
 
-        font = pygame.font.Font('Maplestory Bold.ttf', 36)  # 폰트 설정
+        font = pygame.font.Font('assets/fonts/Maplestory Bold.ttf', 36)  # 폰트 설정
         message = ""
         #message_pos = (W * 50 // 2, H * 150 // 4)  # 메시지 위치 설정 (x, y), 지금 안쓰임
         #message_pos = (60, 500)  

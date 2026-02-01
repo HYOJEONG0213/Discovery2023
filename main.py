@@ -1,6 +1,6 @@
 import pygame
 import sys
-from Game import *
+from src.modules.Game import *
 import random
 
 board_5x5 = [
@@ -86,11 +86,11 @@ screen_height = 696
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Block Game")
 
-Lobby_1 = pygame.image.load("Lobby_1.png")
-Lobby_2 = pygame.image.load("Lobby_2.png")
-Introduce = pygame.image.load("Introduce.png")
-Rule = pygame.image.load("Rule.png")
-SelectPuzzle = pygame.image.load("Select_image.png")
+Lobby_1 = pygame.image.load("assets/images/Lobby_1.png")
+Lobby_2 = pygame.image.load("assets/images/Lobby_2.png")
+Introduce = pygame.image.load("assets/images/Introduce.png")
+Rule = pygame.image.load("assets/images/Rule.png")
+SelectPuzzle = pygame.image.load("assets/images/Select_image.png")
 image_y = 0
 
 current_image = Lobby_1
@@ -107,7 +107,7 @@ white = (255, 255, 255)
 null_color = (0, 0, 0, 0)
 
 # 폰트 설정
-font = pygame.font.Font('Maplestory Bold.ttf', 36)  # 폰트 설정
+font = pygame.font.Font('assets/fonts/Maplestory Bold.ttf', 36)  # 폰트 설정
 
 
 def Lobby2():
